@@ -1,0 +1,65 @@
+project_name: chat-example-chatgpt
+
+dist: .builds
+
+builds:
+  - main: ./
+    binary: chat
+    env:
+      - CGO_ENABLED=0
+    #ldflags:
+      #- -s -w -X github.com/binarybonobos/chat-example-chatgpt/cmd.version={{.Version}} -X github.com/binarybonobos/chat-example-chatgpt/cmd.commit={{.Commit}} -X github.com/binarybonobos/chat-example-chatgpt/cmd.buildDate={{.Date}} -X github.com/binarybonobos/chat-example-chatgpt/cmd.platform={{.Os}}/{{.Arch}}
+    goos:
+      - linux
+      - darwin
+      - windows
+      - freebsd
+      - openbsd
+    goarch:
+      - amd64
+      - arm64
+      - arm
+    ignore:
+      - goos: windows
+        goarch: arm
+    goarm:
+      - "6"
+      - "7"
+    goamd64:
+      - v1
+      - v2
+      - v3
+
+archives:
+  - format: zip
+    files:
+      - LICENSE*
+      - CHANGELOG*
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+
+nfpms:
+  - id: default
+    package_name: chat-example-chatgpt
+    vendor: binarybonobos
+    license: MIT
+    maintainer: Nícolas Castillo <code@ncastillo.xyz>
+    description: I asked some LLM chats to build a simple Go chat app, this is ChatGPT's response 
+    homepage: https://github.com/binarybonobos/chat-example-chatgpt
+    formats:
+      - deb
+      - rpm
+      - apk
+      - archlinux
+    rpm:
+      summary: I asked some LLM chats to build a simple Go chat app, this is ChatGPT's response 
+      compression: lzma
+    archlinux:
+      pkgbase: chat-example-chatgpt
+      packager: Nícolas Castillo <code@ncastillo.xyz>
+    provides:
+      - chat-example-chatgpt
